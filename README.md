@@ -1,1 +1,10 @@
-# cloudformation-resource-providers
+# CyberArk Cloudformation Resource Providers
+
+## LICENSE
+
+[](LICENSE)
+
+## CONTRIBUTING
+
+[](CONTRIBUTING.md)
+

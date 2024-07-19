@@ -1,0 +1,125 @@
+{
+  "typeName": "CyberArk::PrivilegeCloud::Safe",
+  "description": "Manage CyberArk Privilege Cloud safe.",
+  "$comment": "schema doc url - https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html",
+  "sourceUrl": "https://github.com/davidh-cyberark/cloudformation-resource-providers",
+  "additionalProperties": false,
+  "tagging": {
+    "taggable": false
+  },
+  "typeConfiguration": {
+    "properties": {
+      "ConjurAPIURL": {
+        "description": "Conjur API URL.  Example: https://<subdomain>.secretsmgr.cyberark.cloud/api",
+        "$ref": "#/definitions/httpsUrl"
+      },
+      "ConjurAuthenticatorProperties": {
+        "description": "Properties needed to access Conjur",
+        "$ref": "#/definitions/ConjurAuthenticatorProperties"
+      },
+      "PAMAccessProperties": {
+        "description": "Properties needed to access PAM",
+        "$ref": "#/definitions/PAMAccessProperties"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "ConjurAPIURL",
+      "ConjurAuthenticatorProperties",
+      "PAMAccessProperties"
+    ]
+  },
+  "definitions": {
+    "httpsUrl": {
+      "type": "string",
+      "pattern": "^https://[0-9a-zA-Z]([-.\\w]*[0-9a-zA-Z])(:[0-9]*)*([?/#].*)?$",
+      "maxLength": 4096
+    },
+    "ConjurAuthenticatorProperties": {
+      "type": "object",
+      "description": "Properties needed to access Conjur",
+      "additionalProperties": false,
+      "properties": {
+        "ConjurIdentity": {
+          "description": "Conjur workload identity used for authenticating.  Example: host/data/myapp/000000000000/myawsrole",
+          "type": "string"
+        },
+        "ConjurAuthenticator": {
+          "description": "",
+          "type": "string"
+        },
+        "ConjurAccount": {
+          "description": "",
+          "type": "string"
+        },
+        "ConjurAWSRegion": {
+          "description": "",
+          "type": "string"
+        },
+        "ConjurIAMRoleARN": {
+          "description": "",
+          "type": "string"
+        }
+      }
+    },
+    "PAMAccessProperties": {
+      "type": "object",
+      "description": "Properties needed to access PAM",
+      "additionalProperties": false,
+      "properties": {
+        "IDTenantURL": {
+          "description": "ID tenant for authenticating",
+          "$ref": "#/definitions/httpsUrl"
+        },
+        "UserKey": {
+          "description": "Conjur path for PAM user",
+          "type": "string"
+        },
+        "PassKey": {
+          "description": "Conjur path for PAM password of user",
+          "type": "string"
+        },
+        "PcloudURLKey": {
+          "description": "Conjur path for PAM PCloud URL where to create new safe or new account",
+          "type": "string"
+        }
+      }
+    }
+  },
+  "properties": {
+    "NewSafeName": {
+      "description": "Name of new safe to create",
+      "type": "string"
+    },
+    "SafeResourceId": {
+      "description": "Example: PCLOUDURL=https://{YOUR-SUBDOMAIN}.privilegecloud.cyberark.cloud|SAFEURLID=New-Safe-Url-Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "NewSafeName"
+  ],
+  "primaryIdentifier": [
+    "/properties/SafeResourceId"
+  ],
+  "readOnlyProperties": [
+    "/properties/SafeResourceId"
+  ],
+  "handlers": {
+    "create": {
+      "permissions": []
+    },
+    "read": {
+      "permissions": []
+    },
+    "update": {
+      "permissions": []
+    },
+    "delete": {
+      "permissions": []
+    },
+    "list": {
+      "permissions": []
+    }
+  }
+}
