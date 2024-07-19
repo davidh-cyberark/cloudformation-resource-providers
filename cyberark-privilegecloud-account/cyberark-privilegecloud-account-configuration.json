@@ -1,0 +1,123 @@
+{
+    "properties": {
+        "ConjurAPIURL": {
+            "description": "Conjur API URL.  Example: https://<subdomain>.secretsmgr.cyberark.cloud/api",
+            "$ref": "#/definitions/httpsUrl"
+        },
+        "ConjurAuthenticatorProperties": {
+            "description": "Properties needed to access Conjur",
+            "$ref": "#/definitions/ConjurAuthenticatorProperties"
+        },
+        "PAMAccessProperties": {
+            "description": "Properties needed to access PAM",
+            "$ref": "#/definitions/PAMAccessProperties"
+        }
+    },
+    "additionalProperties": false,
+    "required": [
+        "ConjurAPIURL",
+        "ConjurAuthenticatorProperties",
+        "PAMAccessProperties"
+    ],
+    "definitions": {
+        "httpsUrl": {
+            "type": "string",
+            "pattern": "^https://[0-9a-zA-Z]([-.\\w]*[0-9a-zA-Z])(:[0-9]*)*([?/#].*)?$",
+            "maxLength": 4096
+        },
+        "ConjurAuthenticatorProperties": {
+            "type": "object",
+            "description": "Properties needed to access Conjur",
+            "additionalProperties": false,
+            "properties": {
+                "ConjurIdentity": {
+                    "description": "Conjur workload identity used for authenticating.  Example: host/data/myapp/000000000000/myawsrole",
+                    "type": "string"
+                },
+                "ConjurAuthenticator": {
+                    "description": "",
+                    "type": "string"
+                },
+                "ConjurAccount": {
+                    "description": "",
+                    "type": "string"
+                },
+                "ConjurAWSRegion": {
+                    "description": "",
+                    "type": "string"
+                },
+                "ConjurIAMRoleARN": {
+                    "description": "",
+                    "type": "string"
+                }
+            }
+        },
+        "PAMAccessProperties": {
+            "type": "object",
+            "description": "Properties needed to access PAM",
+            "additionalProperties": false,
+            "properties": {
+                "IDTenantURL": {
+                    "description": "ID tenant for authenticating",
+                    "$ref": "#/definitions/httpsUrl"
+                },
+                "UserKey": {
+                    "description": "Conjur path for PAM user",
+                    "type": "string"
+                },
+                "PassKey": {
+                    "description": "Conjur path for PAM password of user",
+                    "type": "string"
+                },
+                "PcloudURLKey": {
+                    "description": "Conjur path for PAM PCloud URL where to create new safe or new account",
+                    "type": "string"
+                }
+            }
+        },
+        "KVpair": {
+            "type": "object",
+            "description": "represent key-value pair using an object",
+            "additionalProperties": false,
+            "properties": {
+                "Key": {
+                    "type": "string"
+                },
+                "Value": {
+                    "type": "string"
+                }
+            }
+        },
+        "SecretManagement": {
+            "type": "object",
+            "description": "",
+            "additionalProperties": false,
+            "properties": {
+                "AutomaticManagementEnabled": {
+                    "description": "Whether the account secret is automatically managed by the CPM.",
+                    "type": "boolean"
+                },
+                "ManualManagementReason": {
+                    "description": "Reason for disabling automatic secret management.",
+                    "type": "string"
+                }
+            }
+        },
+        "RemoteMachinesAccess": {
+            "type": "object",
+            "description": "",
+            "additionalProperties": false,
+            "properties": {
+                "RemoteMachines": {
+                    "description": "List of remote machines, separated by semicolons.",
+                    "type": "string"
+                },
+                "AccessRestrictedToRemoteMachines": {
+                    "description": "Whether or not to restrict access only to specified remote machines.",
+                    "type": "boolean"
+                }
+            }
+        }
+    },
+    "typeName": "CyberArk::PrivilegeCloud::Account"
+}

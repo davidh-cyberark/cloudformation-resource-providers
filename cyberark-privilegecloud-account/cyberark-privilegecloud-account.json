@@ -1,0 +1,210 @@
+{
+  "typeName": "CyberArk::PrivilegeCloud::Account",
+  "description": "Manage CyberArk Privilege Cloud account.",
+  "$comment": "schema doc url - https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html",
+  "sourceUrl": "https://github.com/davidh-cyberark/cloudformation-resource-providers",
+  "additionalProperties": false,
+  "tagging": {
+    "taggable": false
+  },
+  "typeConfiguration": {
+    "properties": {
+      "ConjurAPIURL": {
+        "description": "Conjur API URL.  Example: https://<subdomain>.secretsmgr.cyberark.cloud/api",
+        "$ref": "#/definitions/httpsUrl"
+      },
+      "ConjurAuthenticatorProperties": {
+        "description": "Properties needed to access Conjur",
+        "$ref": "#/definitions/ConjurAuthenticatorProperties"
+      },
+      "PAMAccessProperties": {
+        "description": "Properties needed to access PAM",
+        "$ref": "#/definitions/PAMAccessProperties"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "ConjurAPIURL",
+      "ConjurAuthenticatorProperties",
+      "PAMAccessProperties"
+    ]
+  },
+  "definitions": {
+    "httpsUrl": {
+      "type": "string",
+      "pattern": "^https://[0-9a-zA-Z]([-.\\w]*[0-9a-zA-Z])(:[0-9]*)*([?/#].*)?$",
+      "maxLength": 4096
+    },
+    "ConjurAuthenticatorProperties": {
+      "type": "object",
+      "description": "Properties needed to access Conjur",
+      "additionalProperties": false,
+      "properties": {
+        "ConjurIdentity": {
+          "description": "Conjur workload identity used for authenticating.  Example: host/data/myapp/000000000000/myawsrole",
+          "type": "string"
+        },
+        "ConjurAuthenticator": {
+          "description": "",
+          "type": "string"
+        },
+        "ConjurAccount": {
+          "description": "",
+          "type": "string"
+        },
+        "ConjurAWSRegion": {
+          "description": "",
+          "type": "string"
+        },
+        "ConjurIAMRoleARN": {
+          "description": "",
+          "type": "string"
+        }
+      }
+    },
+    "PAMAccessProperties": {
+      "type": "object",
+      "description": "Properties needed to access PAM",
+      "additionalProperties": false,
+      "properties": {
+        "IDTenantURL": {
+          "description": "ID tenant for authenticating",
+          "$ref": "#/definitions/httpsUrl"
+        },
+        "UserKey": {
+          "description": "Conjur path for PAM user",
+          "type": "string"
+        },
+        "PassKey": {
+          "description": "Conjur path for PAM password of user",
+          "type": "string"
+        },
+        "PcloudURLKey": {
+          "description": "Conjur path for PAM PCloud URL where to create new safe or new account",
+          "type": "string"
+        }
+      }
+    },
+    "KVpair": {
+      "type": "object",
+      "description": "represent key-value pair using an object",
+      "additionalProperties": false,
+      "properties": {
+        "Key": {
+          "type": "string"
+        },
+        "Value": {
+          "type": "string"
+        }
+      }
+    },
+    "SecretManagement": {
+      "type": "object",
+      "description": "",
+      "additionalProperties": false,     
+      "properties": {
+        "AutomaticManagementEnabled": {
+          "description": "Whether the account secret is automatically managed by the CPM.",
+          "type": "boolean"
+        },
+        "ManualManagementReason": {
+          "description": "Reason for disabling automatic secret management.",
+          "type": "string"
+        }
+      }
+    },
+    "RemoteMachinesAccess": {
+      "type": "object",
+      "description": "",
+      "additionalProperties": false,     
+      "properties": {
+        "RemoteMachines": {
+          "description": "List of remote machines, separated by semicolons.",
+          "type": "string"
+        },
+        "AccessRestrictedToRemoteMachines": {
+          "description": "Whether or not to restrict access only to specified remote machines.",
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "properties": {
+    "SafeName": {
+      "description": "The Safe name where the account is created.",
+      "type": "string"
+    },
+    "PlatformID": {
+      "description": "The platform assigned to this account. Platform ID.",
+      "type": "string"
+    },
+    "Name": {
+      "description": "The name of the account.",
+      "type": "string"
+    },
+    "Address": {
+      "description": "The name or address of the machine where the account will be used.",
+      "type": "string"
+    },
+    "UserName": {
+      "description": "Account user's name.",
+      "type": "string"
+    },
+    "Secret": {
+      "description": "The password value.",
+      "type": "string"
+    },
+    "SecretType": {
+      "description": "The type of password. Valid values: Password, key",
+      "type": "string"
+    },
+    "SecretManagement": {
+      "description": "",
+      "type": "object",
+      "$ref": "#/definitions/SecretManagement"
+    },
+    "PlatformAccountProperties": {
+      "type": "array",
+      "insertionOrder": true,
+      "items": {
+        "$ref": "#/definitions/KVpair"
+      }
+    },
+    "RemoteMachinesAccess": {
+      "description": "",
+      "type": "object",
+      "$ref": "#/definitions/RemoteMachinesAccess"
+    },
+    "AccountResourceId": {
+      "description": "Example: ACCTNAME=Account-Name|ACCTID=Account-ID based on values returned from PCloud",
+      "type": "string"
+    }
+  },
+  "required": [
+    "SafeName",
+    "PlatformID"
+  ],
+  "primaryIdentifier": [
+    "/properties/AccountResourceId"
+  ],
+  "readOnlyProperties": [
+    "/properties/AccountResourceId"
+  ],
+  "handlers": {
+    "create": {
+      "permissions": []
+    },
+    "read": {
+      "permissions": []
+    },
+    "update": {
+      "permissions": []
+    },
+    "delete": {
+      "permissions": []
+    },
+    "list": {
+      "permissions": []
+    }
+  }
+}
