@@ -44,6 +44,3 @@ venv/
 **/Makefile.local
 **/Archive
 **/*.BAK
-
-# generated
-**/cyberark-privilegecloud-safe-configuration.json

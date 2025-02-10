@@ -1,0 +1,14 @@
+ConjurAPIURL = 'https://MY-CONJUR-CLOUD.secretsmgr.cyberark.cloud/api'
+
+[ConjurAuthenticatorProperties]
+  ConjurAWSRegion = 'us-east-1'
+  ConjurAccount = 'conjur'
+  ConjurAuthenticator = 'authn-iam/AUTHENTICATOR-NAME'
+  ConjurIAMRoleARN = 'arn:aws:iam::123456789012:role/my_iam_bot_role'
+  ConjurIdentity = 'host/data/AUTHENTICATOR-NAME/123456789012/my_iam_bot_role'
+
+[PAMAccessProperties]
+  IDTenantURL = 'https://MY-TENANT-ID.id.cyberark.cloud'
+  PAMPassKey = 'data/vault/SAFENAME/KEYNAME-FOR-PAM-PASSWORD'
+  PAMPcloudURLKey = 'data/vault/SAFENAME/KEYNAME-FOR-PAM-URL'
+  PAMUserKey = 'data/vault/SAFENAME/KEYNAME-FOR-PAM-USERNAME'
