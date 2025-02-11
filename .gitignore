@@ -44,3 +44,4 @@ venv/
 **/Makefile.local
 **/Archive
 **/*.BAK
+**~

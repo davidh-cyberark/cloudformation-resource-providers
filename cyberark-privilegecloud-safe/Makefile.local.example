@@ -1,0 +1,10 @@
+# Makefile.local  -*-Makefile-*-
+
+.PHONY: Makefile.local
+
+# For Conjur
+# Leave these blank if you want to use Makefile.util to set these values based on
+# values from ../creds.toml
+AWS_LAMBDA_ARN = 
+AWS_REGION     = 
+

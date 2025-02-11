@@ -1,4 +1,8 @@
+# Makefile  -*-Makefile-*-
+
 .PHONY: build test clean Makefile
+
+-include Makefile.local
 
 build:
 	go env -w CGO_ENABLED=0
@@ -21,4 +25,4 @@ AWS_LAMBDA_ARN ?= $(error ERROR: set AWS_LAMBDA_ARN variable in Makefile.local)
 register: build
 	cfn submit --set-default --role-arn "$(AWS_LAMBDA_ARN)" --region "$(AWS_REGION)"
 
--include Makefile.local
+-include Makefile.util
