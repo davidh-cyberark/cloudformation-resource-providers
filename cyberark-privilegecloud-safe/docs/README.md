@@ -13,6 +13,7 @@ To declare this entity in your AWS CloudFormation template, use the following sy
     "Type" : "CyberArk::PrivilegeCloud::Safe",
     "Properties" : {
         "<a href="#newsafename" title="NewSafeName">NewSafeName</a>" : <i>String</i>,
+        "<a href="#newsaferole" title="NewSafeRole">NewSafeRole</a>" : <i>String</i>,
     }
 }
 </pre>
@@ -23,6 +24,7 @@ To declare this entity in your AWS CloudFormation template, use the following sy
 Type: CyberArk::PrivilegeCloud::Safe
 Properties:
     <a href="#newsafename" title="NewSafeName">NewSafeName</a>: <i>String</i>
+    <a href="#newsaferole" title="NewSafeRole">NewSafeRole</a>: <i>String</i>
 </pre>
 
 ## Properties
@@ -37,11 +39,17 @@ _Type_: String
 
 _Update requires_: [No interruption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-no-interrupt)
 
+#### NewSafeRole
+
+Name of new role to create added to the safe
+
+_Required_: No
+
+_Type_: String
+
+_Update requires_: [No interruption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-no-interrupt)
+
 ## Return Values
-
-### Ref
-
-When you pass the logical ID of this resource to the intrinsic `Ref` function, Ref returns the SafeResourceId.
 
 ### Fn::GetAtt
 
@@ -52,4 +60,8 @@ For more information about using the `Fn::GetAtt` intrinsic function, see [Fn::G
 #### SafeResourceId
 
 Example: PCLOUDURL=https://{YOUR-SUBDOMAIN}.privilegecloud.cyberark.cloud|SAFEURLID=New-Safe-Url-Id
+
+#### RoleId
+
+The unique ID of the Role. The unique ID is generated when the role is created. Ex: ROLENAME=myrolename|ROLEID=79d6xxxx_9bxx_46xx_9fxx_d5db6cxxxxxx
 

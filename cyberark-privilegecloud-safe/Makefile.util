@@ -39,10 +39,13 @@ STACK_AWS_REGION := us-east-1
 stackbump:  ## increment version number in STACKVER file cfn-safe.json cfn-safe-config.json
 	echo "$(STACKVER)" | awk '{print $$1+1}' > STACKVER_NEXT && mv STACKVER_NEXT STACKVER
 
-cfn-safe.json:
-	jq --arg N "$(STACKNAME)" '.Resources.$(CFN_RESOURCE_SAFENAME).Properties.NewSafeName |= $$N' cfn-safe.jq > cfn-safe.json
 
-cfn-safe-config.json:
+cfn-safe.json: STACKVER cfn-safe.jq
+	jq --arg N "$(STACKNAME)" '.Resources.$(CFN_RESOURCE_SAFENAME).Properties.NewSafeName |= $$N' cfn-safe.jq > cfn-safe-temp.json
+	jq --arg R "$(STACKNAME)-safe-role" '.Resources.$(CFN_RESOURCE_SAFENAME).Properties.NewSafeRole |= $$R' cfn-safe-temp.json > cfn-safe.json
+	@rm -f cfn-safe-temp.json
+
+cfn-safe-config.json: $(CFN_CREDS_FILE)
 	cat $(CFN_CREDS_FILE) |$(DASEL) -r toml -w json > cfn-safe-config.json
 
 register-configuration: cfn-safe-config.json
@@ -57,6 +60,7 @@ create-stack: register-configuration stackbump cfn-safe.json
 clean::
 	rm -f cfn-safe-config.json
 	rm -f cfn-safe.json
+	rm -f cfn-safe-temp.json
 
 vardump::
 	@echo "CFN_TEMPLATE_FILE     - $(CFN_TEMPLATE_FILE)"

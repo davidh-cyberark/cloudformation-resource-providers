@@ -1,17 +1,19 @@
 module github.com/davidh-cyberark/cloudformation-resource-providers/cloudformation-cyberark-privilegecloud-safe
 
-go 1.22.4
+go 1.22.7
 
 require (
 	github.com/aws-cloudformation/cloudformation-cli-go-plugin v1.2.0
-	github.com/aws/aws-sdk-go v1.54.19
 	github.com/davidh-cyberark/conjur-sdk-go v1.0.2
-	github.com/davidh-cyberark/privilegeaccessmanager-sdk-go v1.0.4
+	github.com/davidh-cyberark/identityadmin-sdk-go v0.0.27
+	github.com/davidh-cyberark/privilegeaccessmanager-sdk-go v1.0.5
 )
 
 require (
 	github.com/alessio/shellescape v1.4.2 // indirect
+	github.com/apapsch/go-jsonmerge/v2 v2.0.0 // indirect
 	github.com/aws/aws-lambda-go v1.47.0 // indirect
+	github.com/aws/aws-sdk-go v1.54.19 // indirect
 	github.com/aws/aws-sdk-go-v2 v1.30.3 // indirect
 	github.com/aws/aws-sdk-go-v2/config v1.27.26 // indirect
 	github.com/aws/aws-sdk-go-v2/credentials v1.17.26 // indirect
@@ -29,7 +31,9 @@ require (
 	github.com/cyberark/conjur-api-go v0.12.3 // indirect
 	github.com/danieljoos/wincred v1.2.2 // indirect
 	github.com/godbus/dbus/v5 v5.1.0 // indirect
+	github.com/google/uuid v1.5.0 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
+	github.com/oapi-codegen/runtime v1.1.1 // indirect
 	github.com/segmentio/ksuid v1.0.4 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/zalando/go-keyring v0.2.5 // indirect
