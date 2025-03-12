@@ -39,8 +39,7 @@ STACK_AWS_REGION := us-east-1
 stackbump:  ## increment version number in STACKVER file cfn-safe.json cfn-safe-config.json
 	echo "$(STACKVER)" | awk '{print $$1+1}' > STACKVER_NEXT && mv STACKVER_NEXT STACKVER
 
-
-cfn-safe.json: STACKVER cfn-safe.jq
+cfn-safe.json: cfn-safe.jq
 	jq --arg N "$(STACKNAME)" '.Resources.$(CFN_RESOURCE_SAFENAME).Properties.NewSafeName |= $$N' cfn-safe.jq > cfn-safe-temp.json
 	jq --arg R "$(STACKNAME)-safe-role" '.Resources.$(CFN_RESOURCE_SAFENAME).Properties.NewSafeRole |= $$R' cfn-safe-temp.json > cfn-safe.json
 	@rm -f cfn-safe-temp.json

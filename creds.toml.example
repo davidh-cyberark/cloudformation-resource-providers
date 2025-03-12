@@ -9,6 +9,8 @@ ConjurAPIURL = 'https://MY-CONJUR-CLOUD.secretsmgr.cyberark.cloud/api'
 
 [PAMAccessProperties]
   IDTenantURL = 'https://MY-TENANT-ID.id.cyberark.cloud'
+
+  # Conjur paths for the PCloud URL, username, and password
   PAMPassKey = 'data/vault/SAFENAME/KEYNAME-FOR-PAM-PASSWORD'
   PAMPcloudURLKey = 'data/vault/SAFENAME/KEYNAME-FOR-PAM-URL'
   PAMUserKey = 'data/vault/SAFENAME/KEYNAME-FOR-PAM-USERNAME'

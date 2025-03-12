@@ -10,10 +10,10 @@
 AWS_LAMBDA_ARN = 
 AWS_REGION     = 
 
-# For CFN template
+# Safe where CF template will store accounts
 # Example: TARGET_SAFE_NAME := DemoSafe-34
 TARGET_SAFE_NAME := 
 
-# For CF Stack
-# STACK_AWS_REGION := us-east-1
+# AWS Region where CyberArk::PrivilegeCloud::Account custom provider is deployed
+# Example: STACK_AWS_REGION := us-east-1
 STACK_AWS_REGION := 
