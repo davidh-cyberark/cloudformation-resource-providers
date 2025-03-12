@@ -1,0 +1,76 @@
+# Makefile.util  -*-Makefile-*-
+
+.PHONY: Makefile.util
+
+ifeq (, $(shell command -v go 2>/dev/null))
+$(error "No go command found.  Install go before continuing.")
+endif
+
+GOPATH := $(shell go env GOPATH)
+DASEL := $(GOPATH)/bin/dasel
+
+ifeq (, $(shell command -v $(DASEL) 2>/dev/null))
+$(error "No dasel found.  Install via 'go install github.com/tomwright/dasel/v2/cmd/dasel@latest'")
+endif
+
+CFN_TEMPLATE_FILE := cfn-account.json
+CFN_TEMPLATE_SCHEMA := file://
+CFN_RESOURCE_SAFENAME := DemoSafe
+CFN_CREDS_FILE := ../creds.toml
+
+# For Conjur
+ifeq ($(strip $(AWS_LAMBDA_ARN)),)
+AWS_LAMBDA_ARN := $(shell cat $(CFN_CREDS_FILE)| $(DASEL) -r toml -w - ConjurAuthenticatorProperties.ConjurIAMRoleARN)
+endif
+
+ifeq ($(strip $(AWS_REGION)),)
+AWS_REGION := $(shell cat $(CFN_CREDS_FILE)| $(DASEL) -r toml -w - ConjurAuthenticatorProperties.ConjurAWSRegion)
+endif
+
+# For the CF Stack
+STACKVER := $(shell cat STACKVER 2> /dev/null || printf '1')
+STACKNAME := Account-$(CFN_RESOURCE_SAFENAME)-$(shell cat STACKVER 2> /dev/null || printf '1')
+ifeq ($(strip $(STACK_AWS_REGION)),)
+$(error "Variable STACK_AWS_REGION not set. Set variable in Makefile.local.")
+endif
+
+
+.PHONY: stackbump publish vardump register-configuration create-stack
+
+stackbump:  ## increment version number in STACKVER
+	echo "$(STACKVER)" | awk '{print $$1+1}' > STACKVER_NEXT && mv STACKVER_NEXT STACKVER
+
+cfn-account.json:
+ifeq ($(strip $(TARGET_SAFE_NAME)),)
+$(error "Variable TARGET_SAFE_NAME not set. Set variable in Makefile.local.")
+endif
+	jq --arg N "$(TARGET_SAFE_NAME)" '.Resources.$(CFN_RESOURCE_SAFENAME).Properties.SafeName |= $$N' cfn-account.jq > cfn-account.json
+
+cfn-account-config.json:
+	cat $(CFN_CREDS_FILE) |$(DASEL) -r toml -w json > cfn-account-config.json
+
+register-configuration: cfn-account-config.json
+	aws cloudformation set-type-configuration --region $(STACK_AWS_REGION) --type RESOURCE \
+	--type-name CyberArk::PrivilegeCloud::Account \
+	--configuration-alias default \
+	--configuration "$(shell cat cfn-account-config.json| sed -e 's/"/\\"/g')"
+
+create-stack: register-configuration stackbump cfn-account.json
+	aws cloudformation create-stack --stack-name "$(STACKNAME)" --template-body "$(CFN_TEMPLATE_SCHEMA)$(CFN_TEMPLATE_FILE)"
+
+clean::
+	rm -f cfn-account-config.json
+	rm -f cfn-account.json
+
+vardump::
+	@echo "TARGET_SAFE_NAME      - $(TARGET_SAFE_NAME)"
+	@echo "CFN_TEMPLATE_FILE     - $(CFN_TEMPLATE_FILE)"
+	@echo "CFN_TEMPLATE_SCHEMA   - $(CFN_TEMPLATE_SCHEMA)"
+	@echo "CFN_RESOURCE_SAFENAME - $(CFN_RESOURCE_SAFENAME)"
+	@echo "CFN_CREDS_FILE        - $(CFN_CREDS_FILE)"
+	@echo "AWS_LAMBDA_ARN        - $(AWS_LAMBDA_ARN)"
+	@echo "AWS_REGION            - $(AWS_REGION)"
+	@echo "STACKNAME             - $(STACKNAME)"
+	@echo "STACKVER              - $(STACKVER)"
+	@echo "GOPATH                - $(GOPATH)"
+	@echo "DASEL                 - $(DASEL)"

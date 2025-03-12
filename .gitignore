@@ -44,6 +44,12 @@ venv/
 **/Makefile.local
 **/Archive
 **/*.BAK
+**~
 
-# generated
-**/cyberark-privilegecloud-safe-configuration.json
+cyberark-privilegecloud-account/STACKVER
+cyberark-privilegecloud-account/cfn-account-config.json
+cyberark-privilegecloud-account/cfn-account.json
+cyberark-privilegecloud-safe/STACKVER
+cyberark-privilegecloud-safe/cfn-safe-config.json
+cyberark-privilegecloud-safe/cfn-safe.json
+cyberark-privilegecloud-safe/cyberark-privilegecloud-safe.zip

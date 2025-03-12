@@ -91,8 +91,16 @@
       "description": "Name of new safe to create",
       "type": "string"
     },
+    "NewSafeRole": {
+      "description": "Name of new role to create added to the safe",
+      "type": "string"
+    },
     "SafeResourceId": {
       "description": "Example: PCLOUDURL=https://{YOUR-SUBDOMAIN}.privilegecloud.cyberark.cloud|SAFEURLID=New-Safe-Url-Id",
+      "type": "string"
+    },
+    "RoleId": {
+      "description": "The unique ID of the Role. The unique ID is generated when the role is created. Ex: ROLENAME=myrolename|ROLEID=79d6xxxx_9bxx_46xx_9fxx_d5db6cxxxxxx",
       "type": "string"
     }
   },
@@ -100,10 +108,12 @@
     "NewSafeName"
   ],
   "primaryIdentifier": [
-    "/properties/SafeResourceId"
+    "/properties/SafeResourceId",
+    "/properties/RoleId"
   ],
   "readOnlyProperties": [
-    "/properties/SafeResourceId"
+    "/properties/SafeResourceId",
+    "/properties/RoleId"
   ],
   "handlers": {
     "create": {
